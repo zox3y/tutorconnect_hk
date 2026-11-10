@@ -24,17 +24,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
       if ($valid_date && $valid_time && $valid_dur) {
         $safe_date = safe($lesson_date);
         $safe_time = safe($lesson_time);
-        $sql_conflict = "SELECT COUNT(*) FROM BOOKING 
+
+        // tutor already busy at this time
+        $sql_conflict_tutor = "SELECT COUNT(*) FROM BOOKING 
            WHERE TutorID = $tutor_id 
              AND LessonDate = '$safe_date' 
              AND Status != 'Cancelled'
              AND LessonTime = '$safe_time'";
+        $res_t = $conn->query($sql_conflict_tutor);
+        $row_t = $res_t ? $res_t->fetch_row() : [0];
 
-        $res_conflict = $conn->query($sql_conflict);
-        $row_conflict = $res_conflict ? $res_conflict->fetch_row() : [0];
+        // whether student already has a lesson with another tutor at this time
+        $sql_conflict_stu = "SELECT COUNT(*) FROM BOOKING 
+           WHERE StudentID = $student_id 
+             AND LessonDate = '$safe_date' 
+             AND Status != 'Cancelled'
+             AND LessonTime = '$safe_time'";
+        $res_s = $conn->query($sql_conflict_stu);
+        $row_s = $res_s ? $res_s->fetch_row() : [0];
 
-        if ($row_conflict[0] > 0) {
+        if ($row_t[0] > 0) {
           $alert_message = "<div class='alert-error'>Please select a different time slot.</div>";
+        } else if ($row_s[0] > 0) {
+          $alert_message = "<div class='alert-error'>You already have a lesson booked at this time.</div>";
         } else {
           $sql_booking = "INSERT INTO BOOKING (StudentID, TutorID, LessonDate, LessonTime, Duration, Status) VALUES ($student_id, $tutor_id, '$safe_date', '$safe_time', $duration, 'Pending')";
           $conn->query($sql_booking);
