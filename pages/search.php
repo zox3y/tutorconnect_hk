@@ -131,7 +131,10 @@ if (!empty($alert_message)) {
       <strong>$<?= $price ?> / hour</strong>
         <?php if (isset($_SESSION['user_role'])): ?>
           <?php if ($_SESSION['user_role'] == 'Student' || $_SESSION['user_role'] == 'Parent'): ?>
-            <a href='?page=bookings&book_tutor_id=<?= $tutor['UserID'] ?>' class='btn-primary'>Book Lesson</a>
+            <div style='display:flex; gap:0.5rem; align-items:center;'>
+              <a href='?page=bookings&book_tutor_id=<?= $tutor['UserID'] ?>' class='btn-primary'>Book Lesson</a>
+              <a href='?page=messages&chat_with=<?= $tutor['UserID'] ?>' class='btn-primary' style='background-color:#16a34a; width:2.7rem; height:2.7rem; padding:0; display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem;' title='Message Tutor'>&#9993;</a>
+            </div>
           <?php endif; ?>
         <?php else: ?>
           <a href='?page=login' class='btn-sec'>Login to Book</a>
