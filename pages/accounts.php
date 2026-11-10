@@ -9,7 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     if (empty($email) || empty($password)) {
       $alert_message = "<div class='alert-error'>Error: Please enter both email address and password.</div>";
     } else {
-      $sql = "SELECT UserID, Title, Name, Email, PasswordHash, Role FROM USER WHERE Email = '$email'";
+      $safe_email = safe($email);
+      $sql = "SELECT UserID, Title, Name, Email, PasswordHash, Role FROM USER WHERE Email = '$safe_email'";
       $result = $conn->query($sql);
       $user_row = $result ? $result->fetch_assoc() : null;
 
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     $phone = trim($_POST['phone']);
     $district = trim($_POST['district']);
 
-    $valid_email = filter_var($email, FILTER_VALIDATE_EMAIL) && (strpos($email, '@') !== false);
+    $valid_email = filter_var($email, FILTER_VALIDATE_EMAIL);
     $valid_phone = empty($phone) || preg_match('/^[0-9]{8}$/', $phone);
 
     if (empty($name) || empty($email) || empty($password) || empty($confirm_password) || empty($role)) {
@@ -55,7 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
     } else if ($password !== $confirm_password) {
       $alert_message = "<div class='alert-error'>Error: Passwords do not match.</div>";
     } else {
-      $sql_email = "SELECT COUNT(*) FROM USER WHERE Email = '$email'";
+      $safe_email = safe($email);
+      $sql_email = "SELECT COUNT(*) FROM USER WHERE Email = '$safe_email'";
       $res_check = $conn->query($sql_email);
       $row_check = $res_check ? $res_check->fetch_row() : [0];
       $email_exists = $row_check[0] > 0;
@@ -84,8 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
           header("Location: " . $_SERVER['PHP_SELF'] . "?page=register&step=2");
           exit();
         } else {
-          $sql_insert = "INSERT INTO USER (Title, Name, Email, PasswordHash, Role, Phone, District) 
-                   VALUES ('$title', '$name', '$email', '$password_hash', '$role', '$phone', '$district')";
+          $safe_title    = safe($title);
+          $safe_name     = safe($name);
+          $safe_email    = safe($email);
+          $safe_role     = safe($role);
+          $safe_phone    = safe($phone);
+          $safe_district = safe($district);
+          $sql_insert = "INSERT INTO USER (Title, Name, Email, PasswordHash, Role, Phone, District) VALUES ('$safe_title', '$safe_name', '$safe_email', '$password_hash', '$safe_role', '$safe_phone', '$safe_district')";
           $conn->query($sql_insert);
 
           $_SESSION['user_id'] = $conn->insert_id;
@@ -118,13 +125,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         $hourly_rate = 250.00;
       }
 
-      $sql_user = "INSERT INTO USER (Title, Name, Email, PasswordHash, Role, Phone, District) VALUES ('{$reg_data['title']}', '{$reg_data['name']}', '{$reg_data['email']}', '{$reg_data['password_hash']}', 'Tutor', '{$reg_data['phone']}', '{$reg_data['district']}')";
+      $safe_title    = safe($reg_data['title']);
+      $safe_name     = safe($reg_data['name']);
+      $safe_email    = safe($reg_data['email']);
+      $safe_phone    = safe($reg_data['phone']);
+      $safe_district = safe($reg_data['district']);
+      $sql_user = "INSERT INTO USER (Title, Name, Email, PasswordHash, Role, Phone, District) VALUES ('$safe_title', '$safe_name', '$safe_email', '{$reg_data['password_hash']}', 'Tutor', '$safe_phone', '$safe_district')";
 
       $conn->query($sql_user);
-      
-      $new_tutor_id = $conn->insert_id;
 
-      $sql_tutor = "INSERT INTO TUTOR (TutorID, Bio, Qualifications, HourlyRate, AvgRating) VALUES ($new_tutor_id, '$bio', '$qualifications', $hourly_rate, 0.00)";
+      $new_tutor_id = (int)$conn->insert_id;
+      $safe_bio    = safe($bio);
+      $safe_quals  = safe($qualifications);
+      $sql_tutor = "INSERT INTO TUTOR (TutorID, Bio, Qualifications, HourlyRate, AvgRating) VALUES ($new_tutor_id, '$safe_bio', '$safe_quals', $hourly_rate, 0.00)";
 
       $conn->query($sql_tutor);
 

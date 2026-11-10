@@ -4,8 +4,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
     $text = trim($_POST['message_content']);
 
     if (!empty($text) && $receiver_id > 0) {
+        $safe_text = safe($text);
         $sql_msg = "INSERT INTO MESSAGE (SenderID, ReceiverID, MessageContent) 
-                         VALUES ({$_SESSION['user_id']}, $receiver_id, '$text')";
+        VALUES ({$_SESSION['user_id']}, $receiver_id, '$safe_text')";
         $conn->query($sql_msg);
     }
 }

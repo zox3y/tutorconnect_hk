@@ -22,11 +22,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
       }
 
       if ($valid_date && $valid_time && $valid_dur) {
+        $safe_date = safe($lesson_date);
+        $safe_time = safe($lesson_time);
         $sql_conflict = "SELECT COUNT(*) FROM BOOKING 
            WHERE TutorID = $tutor_id 
-             AND LessonDate = '$lesson_date' 
+             AND LessonDate = '$safe_date' 
              AND Status != 'Cancelled'
-             AND LessonTime = '$lesson_time'";
+             AND LessonTime = '$safe_time'";
 
         $res_conflict = $conn->query($sql_conflict);
         $row_conflict = $res_conflict ? $res_conflict->fetch_row() : [0];
@@ -34,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
         if ($row_conflict[0] > 0) {
           $alert_message = "<div class='alert-error'>Please select a different time slot.</div>";
         } else {
-          $sql_booking = "INSERT INTO BOOKING (StudentID, TutorID, LessonDate, LessonTime, Duration, Status) 
-             VALUES ($student_id, $tutor_id, '$lesson_date', '$lesson_time', $duration, 'Pending')";
+          $sql_booking = "INSERT INTO BOOKING (StudentID, TutorID, LessonDate, LessonTime, Duration, Status) VALUES ($student_id, $tutor_id, '$safe_date', '$safe_time', $duration, 'Pending')";
           $conn->query($sql_booking);
           $alert_message = "<div class='alert-success'>Submitted successfully!</div>";
         }

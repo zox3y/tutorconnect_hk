@@ -47,3 +47,7 @@ function rating_level($rating) {
   }
 }
 
+function safe($str) {
+    global $conn;
+    return $conn->real_escape_string($str);
+}

@@ -35,11 +35,13 @@ $sql_search = "
 ";
 
 if (!empty($keyword)) {
-  $sql_search .= " AND (u.Name LIKE '%$keyword%' OR t.Bio LIKE '%$keyword%' OR t.Qualifications LIKE '%$keyword%')";
+  $safe_keyword = safe($keyword);
+  $sql_search .= " AND (u.Name LIKE '%$safe_keyword%' OR t.Bio LIKE '%$safe_keyword%' OR t.Qualifications LIKE '%$safe_keyword%')";
 }
 
 if (!empty($district)) {
-  $sql_search .= " AND u.District = '$district'";
+  $safe_district = safe($district);
+  $sql_search .= " AND u.District = '$safe_district'";
 }
 
 if ($subject_id > 0) {
