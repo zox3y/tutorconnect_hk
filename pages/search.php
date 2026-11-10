@@ -93,7 +93,7 @@ if (!empty($alert_message)) {
   <input type='number' name='rate' value='<?= $max_rate ?>' min='0' max='9999'>
 </div>
 </div><br>
-<button type='submit' class='btn-primary'>Apply Filter</button> 
+<button type='submit' class='btn-primary' style='font-size:1rem;'>Apply Filter</button> 
 <a href='?page=search' class='btn-sec'>Reset</a>
 </form>
 
