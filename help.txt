@@ -1,0 +1,15 @@
+Run the following in github codespaces terminal one by one (ctrl+shift+c)
+
+sudo apt update && sudo apt install -y mariadb-server php8.3-mysql
+
+sudo /usr/sbin/service mariadb start
+
+echo "extension=/usr/lib/php/20230831/mysqli.so" | sudo tee -a /opt/php/8.3.33/ini/php.ini
+
+sudo mariadb < sql/schema.sql
+
+sudo mariadb tutor_platform < sql/example_data.sql
+
+sudo mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD(''); CREATE USER IF NOT EXISTS 'root'@'127.0.0.1' IDENTIFIED VIA mysql_native_password USING PASSWORD(''); GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; GRANT ALL PRIVILEGES ON *.* TO 'root'@'127.0.0.1' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+
+cd /workspaces/tutorconnect_hk && php -S 0.0.0.0:8000
