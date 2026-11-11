@@ -116,24 +116,24 @@ if (!empty($alert_message)) {
   <div class='card'>
     <div style='display:flex; justify-content:space-between; align-items:center;'>
       <h3 style='margin:0;'><?= $tutor_display_name ?>
-        <?php if ($verified): ?>
+        <?php if ($verified): ?>&nbsp;
           <span class='verified-badge'>✔ Verified</span>
         <?php endif; ?>
       </h3>
-      <span class='rating-badge <?= $badge_class ?>'>★ <?= $rating_1 ?> / 5.00</span>
+      <span class='rating-badge <?= $badge_class ?>'>★ <?= $rating_1 ?></span>
     </div>
                 
     <p style='margin: 0.5rem 0 0.25rem 0;'><strong>Subject(s) offered:</strong> <?= $subjects_text ?></p>
     <p style='margin: 0.25rem 0;'><strong>Qualifications:</strong> <?= $tutor['Qualifications'] ?></p>
     <p style='margin: 0.25rem 0;'><strong>Location:</strong> <?= $location ?></p>
     <p style='margin: 0.25rem 0 0.75rem 0;'><?= $tutor['Bio'] ?></p>
-    <div style='display:flex; justify-content:space-between; align-items:center;'>
+    <div style='display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem; padding-top:0.75rem; border-top:1px solid var(--border-color); margin-top:0.75rem;'>
       <strong>$<?= $price ?> / hour</strong>
         <?php if (isset($_SESSION['user_role'])): ?>
           <?php if ($_SESSION['user_role'] == 'Student' || $_SESSION['user_role'] == 'Parent'): ?>
             <div style='display:flex; gap:0.5rem; align-items:center;'>
+              <a href='?page=messages&chat_with=<?= $tutor['UserID'] ?>' class='btn-message'>Message</a>
               <a href='?page=bookings&book_tutor_id=<?= $tutor['UserID'] ?>' class='btn-primary'>Book Lesson</a>
-              <a href='?page=messages&chat_with=<?= $tutor['UserID'] ?>' class='btn-primary' style='background-color:#16a34a; width:2.7rem; height:2.7rem; padding:0; display:inline-flex; align-items:center; justify-content:center; font-size:1.1rem;' title='Message Tutor'>&#9993;</a>
             </div>
           <?php endif; ?>
         <?php else: ?>

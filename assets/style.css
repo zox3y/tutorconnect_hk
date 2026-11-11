@@ -4,18 +4,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-    /* Typography */
     --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
     --t-xs:   0.6875rem;   /* 11px */
     --t-sm:   0.8125rem;   /* 13px */
-    --t-base: 1rem;   /* 16px */
+    --t-base: 1rem;        /* 16px */
     --t-lg:   1.125rem;    /* 18px */
     --t-xl:   1.375rem;    /* 22px */
     --t-2xl:  1.75rem;     /* 28px */
     --t-3xl:  2.25rem;     /* 36px */
 
-    /* Colors (unchanged) */
     --bg-color: #f8fafc;
     --text-color: #1e293b;
     --card-bg: #ffffff;
@@ -63,7 +61,6 @@ body {
     padding: 0;
 }
 
-/* Headings — one rule, tokens applied */
 h1, h2, h3, h4 {
     font-family: var(--font);
     font-weight: 700;
@@ -75,7 +72,6 @@ h2 { font-size: var(--t-2xl); }
 h3 { font-size: var(--t-lg); font-weight: 600; }
 h4 { font-size: var(--t-base); font-weight: 600; }
 
-/* Form controls — inherit Inter instead of the browser's own UI font */
 button, input, select, textarea {
     font-family: inherit;
     font-size: inherit;
@@ -93,6 +89,12 @@ body.high-contrast textarea,
 body.high-contrast h1, body.high-contrast h2, body.high-contrast h3,
 body.high-contrast p, body.high-contrast span, body.high-contrast small {
     color: #ffffff !important;
+}
+
+.btn-primary, .btn-sec {
+    appearance: none;
+    -webkit-appearance: none;
+    line-height: 1.4;
 }
 
 .navbar {
@@ -138,7 +140,6 @@ body.high-contrast p, body.high-contrast span, body.high-contrast small {
     color: var(--nav-text);
     text-decoration: none;
     font-weight: 600;
-    font-size: var(--t-sm);
     padding: 0.45rem 0.9rem;
     border-radius: 6px;
     border: 1px solid #475569;
@@ -286,7 +287,7 @@ body.high-contrast .subject-category-header {
 .btn-primary {
     background-color: var(--primary-color);
     color: #ffffff;
-    border: none;
+    border: 1px solid transparent;
     padding: 0.6rem 1.2rem;
     border-radius: 4px;
     cursor: pointer;
@@ -296,13 +297,60 @@ body.high-contrast .subject-category-header {
     text-align: center;
 }
 
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    border-color: #1d4ed8;
+    text-decoration: none;
+}
+
 body.high-contrast .btn-primary {
     background-color: #000000;
     color: #ffffff !important;
     border: 2px solid #ffffff;
 }
 
+.btn-message {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btn-message:hover {
+    background-color: var(--contact-bg);
+    text-decoration: none;
+}
+
+body.high-contrast .btn-message {
+    background-color: #000000;
+    color: #ffffff !important;
+    border: 2px solid #ffffff;
+}
+
 .btn-sec {
+    background-color: var(--contact-hover);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-sec:hover {
+    background-color: var(--border-color);
+    text-decoration: none;
+}
+
+.btn-nav-toggle {
     background-color: #000b23;
     color: #ffffff;
     border: none;
@@ -311,6 +359,12 @@ body.high-contrast .btn-primary {
     text-decoration: none;
     display: inline-block;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-nav-toggle:hover {
+    background-color: #1e293b;
+    text-decoration: none;
 }
 
 .btn-danger {
@@ -323,6 +377,11 @@ body.high-contrast .btn-primary {
     font-weight: 600;
 }
 
+.btn-danger:hover {
+    background-color: #b91c1c;
+    text-decoration: none;
+}
+
 .btn-success {
     background-color: #16a34a;
     color: #ffffff;
@@ -333,14 +392,28 @@ body.high-contrast .btn-primary {
     font-weight: 600;
 }
 
+.btn-success:hover {
+    background-color: #15803d;
+    text-decoration: none;
+}
+
 body.high-contrast .btn-sec,
+body.high-contrast .btn-nav-toggle,
 body.high-contrast .btn-danger,
 body.high-contrast .btn-success {
     background-color: #000000;
     color: #ffffff !important;
     border: 1px solid #ffffff;
 }
-
+body.high-contrast .btn-primary:hover,
+body.high-contrast .btn-message:hover,
+body.high-contrast .btn-sec:hover,
+body.high-contrast .btn-nav-toggle:hover,
+body.high-contrast .btn-danger:hover,
+body.high-contrast .btn-success:hover {
+    background-color: #ffffff;
+    color: #000000 !important;
+}
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -398,11 +471,13 @@ body.high-contrast .status-tag {
 .verified-badge {
     background-color: #dcfce7;
     color: #15803d;
-    padding: 0.1rem 0.4rem;
+    padding: 0.2rem 0.4rem;
     border-radius: 4px;
     font-size: var(--t-xs);
     font-weight: 600;
     display: inline-block;
+    vertical-align: middle;
+    line-height: 1.2; 
 }
 
 body.high-contrast .verified-badge {
@@ -495,7 +570,6 @@ body.high-contrast .contact-card.active-contact div {
     border-radius: 6px;
     max-width: 80%;
     word-wrap: break-word;
-    font-size: var(--t-sm);
 }
 
 .msg-sent {
@@ -523,7 +597,7 @@ body.high-contrast .msg-received {
     padding: 0.25rem 0.6rem;
     border-radius: 4px;
     font-weight: 600;
-    font-size: var(--t-xs);
+    font-size: var(--t-base);
     display: inline-block;
 }
 
@@ -551,4 +625,24 @@ body.high-contrast .rating-bad {
     background-color: #000000;
     color: #ffffff !important;
     border: 2px solid #ffffff;
+}
+
+.form-grid > div {
+    min-width: 0;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%2364748b' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem center;
+    padding-right: 2rem;
+}
+
+input, select, textarea {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }

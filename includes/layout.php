@@ -61,10 +61,10 @@ function render_header($active_page = 'home', $alert_message = '') {
     </div>
   <?php endif; ?>
 
-  <a href="?set_font=small&page=<?= $active_page ?>" class="btn-sec">A-</a>
-  <a href="?set_font=medium&page=<?= $active_page ?>" class="btn-sec">A</a>
-  <a href="?set_font=large&page=<?= $active_page ?>" class="btn-sec">A+</a>
-  <a href="?toggle_contrast=1&page=<?= $active_page ?>" class="btn-sec" title="Toggle High Contrast Mode">◐</a>
+  <a href="?set_font=small&page=<?= $active_page ?>" class="btn-nav-toggle">A-</a>
+  <a href="?set_font=medium&page=<?= $active_page ?>" class="btn-nav-toggle">A</a>
+  <a href="?set_font=large&page=<?= $active_page ?>" class="btn-nav-toggle">A+</a>
+  <a href="?toggle_contrast=1&page=<?= $active_page ?>" class="btn-nav-toggle" title="Toggle High Contrast Mode">◐</a>
 </div>
 </header>
 
