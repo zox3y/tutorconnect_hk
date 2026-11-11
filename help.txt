@@ -15,5 +15,6 @@ sudo mariadb -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_passw
 -- optional --
 fuser -k 8000/tcp 2>/dev/null || true
 --          --
-
+sudo /usr/sbin/service mariadb start
+--
 cd /workspaces/tutorconnect_hk && php -S 0.0.0.0:8000
