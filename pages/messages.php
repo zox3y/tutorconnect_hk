@@ -106,7 +106,7 @@ $messages = fetch_rows($conn->query($sql_messages));
         <?php endif; ?>
     </div>
 
-    <form method='POST' action='?page=messages&chat_with=<?= $contact_id ?>' style='display:flex; gap:0.5rem;'>
+    <form method='POST' action='?page=messages&chat_with=<?= $contact_id ?>&kw=<?= urlencode($keyword) ?>' style='display:flex; gap:0.5rem;'>
         <input type='hidden' name='action' value='send_message'>
         <input type='hidden' name='receiver_id' value='<?= $contact_id ?>'>
         <input type='text' name='message_content' placeholder='Type message...' required>
