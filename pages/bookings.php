@@ -280,7 +280,8 @@ $student_bookings = fetch_rows($conn->query($sql_bookings_fetch));
           <button type='submit' class='btn-primary' style='padding:0.2rem 0.5rem;'>SUBMIT</button>
         </form>
       <?php elseif ($booking['Rating'] !== null): ?>
-        ★ <?= $booking['Rating'] ?> / 5
+        <?php $your_rating = (int)$booking['Rating']; ?>
+        <span class='rating-badge <?= rating_level($your_rating) ?>' title='Your rating'>★ <?= $your_rating ?> / 5</span>
       <?php elseif ($booking['Status'] == 'Cancelled'): ?>
         <em>Lesson Cancelled</em>
       <?php elseif ($booking['Status'] == 'Pending'): ?>
