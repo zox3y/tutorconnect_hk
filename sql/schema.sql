@@ -1,9 +1,8 @@
--- Database Initialization Script for HK TutorConnect (With Test Data Seeder)
 
 CREATE DATABASE IF NOT EXISTS `tutor_platform` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `tutor_platform`;
 
--- 1. USER table (account details)
+-- USER table 
 CREATE TABLE IF NOT EXISTS USER (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(20) DEFAULT '',
@@ -16,7 +15,7 @@ CREATE TABLE IF NOT EXISTS USER (
     District VARCHAR(100)
 );
 
--- 2. TUTOR table (tutor details)
+-- TUTOR table 
 CREATE TABLE IF NOT EXISTS TUTOR (
     TutorID INT PRIMARY KEY,
     Bio TEXT,
@@ -26,14 +25,14 @@ CREATE TABLE IF NOT EXISTS TUTOR (
     FOREIGN KEY (TutorID) REFERENCES USER(UserID) ON DELETE CASCADE
 );
 
--- 3. SUBJECT table (for HKDSE subjects)
+-- SUBJECT table 
 CREATE TABLE IF NOT EXISTS SUBJECT (
     SubjectID INT AUTO_INCREMENT PRIMARY KEY,
     SubjectName VARCHAR(100) NOT NULL,
     Category VARCHAR(100) NOT NULL
 );
 
--- 4. TUTOR_SUBJECT table (tutor-subject relationship)
+-- TUTOR_SUBJECT table (tutor-subject relationship)
 CREATE TABLE IF NOT EXISTS TUTOR_SUBJECT (
     TutorID INT,
     SubjectID INT,
@@ -42,7 +41,7 @@ CREATE TABLE IF NOT EXISTS TUTOR_SUBJECT (
     FOREIGN KEY (SubjectID) REFERENCES SUBJECT(SubjectID) ON DELETE CASCADE
 );
 
--- 5. BOOKING table (tutorial bookings)
+-- BOOKING table 
 CREATE TABLE IF NOT EXISTS BOOKING (
     BookingID INT AUTO_INCREMENT PRIMARY KEY,
     StudentID INT NOT NULL,
@@ -55,7 +54,7 @@ CREATE TABLE IF NOT EXISTS BOOKING (
     FOREIGN KEY (TutorID) REFERENCES USER(UserID) ON DELETE CASCADE
 );
 
--- 6. MESSAGE table
+-- MESSAGE table
 CREATE TABLE IF NOT EXISTS MESSAGE (
     MessageID INT AUTO_INCREMENT PRIMARY KEY,
     SenderID INT NOT NULL,
@@ -66,7 +65,7 @@ CREATE TABLE IF NOT EXISTS MESSAGE (
     FOREIGN KEY (ReceiverID) REFERENCES USER(UserID) ON DELETE CASCADE
 );
 
--- 7. REVIEW table
+-- REVIEW table
 CREATE TABLE IF NOT EXISTS REVIEW (
     ReviewID INT AUTO_INCREMENT PRIMARY KEY,
     BookingID INT NOT NULL UNIQUE,
@@ -79,7 +78,7 @@ CREATE TABLE IF NOT EXISTS REVIEW (
     FOREIGN KEY (TutorID) REFERENCES USER(UserID) ON DELETE CASCADE
 );
 
--- 8. TUTOR_DOCUMENT table (Uploaded certs for admin verification)
+-- TUTOR_DOCUMENT table (Uploaded certs for admin verification)
 CREATE TABLE IF NOT EXISTS TUTOR_DOCUMENT (
     DocID INT AUTO_INCREMENT PRIMARY KEY,
     TutorID INT NOT NULL,
@@ -90,7 +89,6 @@ CREATE TABLE IF NOT EXISTS TUTOR_DOCUMENT (
     FOREIGN KEY (TutorID) REFERENCES TUTOR(TutorID) ON DELETE CASCADE
 );
 
--- List of all HKDSE subjects from Google
 INSERT INTO SUBJECT (SubjectName, Category) VALUES
 ('Chinese Language', 'Category 0: Core Subjects'),
 ('English Language', 'Category 0: Core Subjects'),
