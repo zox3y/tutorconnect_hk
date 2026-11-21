@@ -28,13 +28,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
         $hourly_rate = 250.00;
     }
 
-    $sql_user1 = "UPDATE USER SET Title = '$title', Name = '$name', Phone = '$phone', District = '$district' WHERE UserID = $tutor_id";
+    $safe_title    = safe($title);
+    $safe_name     = safe($name);
+    $safe_phone    = safe($phone);
+    $safe_district = safe($district);
+
+    $sql_user1 = "UPDATE USER SET Title = '$safe_title', Name = '$safe_name', Phone = '$safe_phone', District = '$safe_district' WHERE UserID = $tutor_id";
     $conn->query($sql_user1);
 
-    $sql_tutor1 = "UPDATE TUTOR SET Bio = '$bio', Qualifications = '$qualifications', HourlyRate = $hourly_rate WHERE TutorID = $tutor_id";
-    $conn->query($sql_tutor1);
+    $safe_bio   = safe($bio);
+    $safe_quals = safe($qualifications);
 
+    $sql_tutor1 = "UPDATE TUTOR SET Bio = '$safe_bio', Qualifications = '$safe_quals', HourlyRate = $hourly_rate WHERE TutorID = $tutor_id";
+    $conn->query($sql_tutor1);
+    
     $conn->query("DELETE FROM TUTOR_SUBJECT WHERE TutorID = $tutor_id");
+
 
     if (!empty($selected_subjects)) {
       foreach ($selected_subjects as $subj_id) {
@@ -66,10 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action']) && $_POST['a
           $new_filename = uniqid() . '.' . $file_ext;		// to fix duplicate file names overwriting each other
           $dest = $upload_dir . $new_filename;
           if (move_uploaded_file($temp, $dest)) {
-            $sql_doc = "INSERT INTO TUTOR_DOCUMENT (TutorID, FilePath, OriginalName, Status) 
-              VALUES ($tutor_id, 'uploads/$new_filename', '$og_name', 'Pending')";
+            $safe_og_name = safe($og_name);
+            $sql_doc = "INSERT INTO TUTOR_DOCUMENT (TutorID, FilePath, OriginalName, Status) VALUES ($tutor_id, 'uploads/$new_filename', '$safe_og_name', 'Pending')";
             $conn->query($sql_doc);
-              }
+          }
             } else {
             $alert_message = "<div class='alert-error'>Upload Error: Invalid file format.</div>";
             }
