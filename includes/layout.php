@@ -41,7 +41,7 @@ function render_header($active_page = 'home', $alert_message = '') {
       <a href="?page=bookings" class="<?= $active_page == 'bookings' ? 'active' : '' ?>">My Bookings</a>
       <a href="?page=messages" class="<?= $active_page == 'messages' ? 'active' : '' ?>">Messages</a>
     <?php elseif ($_SESSION['user_role'] == 'Tutor'): ?>
-      <a href="?page=tutor_dashboardd" class="<?= $active_page == 'tutor_dashboardd' ? 'active' : '' ?>">Tutor Dashboard</a>
+      <a href="?page=tutor_dashboard" class="<?= $active_page == 'tutor_dashboard' ? 'active' : '' ?>">Tutor Dashboard</a>
       <a href="?page=profile" class="<?= $active_page == 'profile' ? 'active' : '' ?>">Edit Profile</a>
       <a href="?page=messages" class="<?= $active_page == 'messages' ? 'active' : '' ?>">Messages</a>
     <?php elseif ($_SESSION['user_role'] == 'Admin'): ?>

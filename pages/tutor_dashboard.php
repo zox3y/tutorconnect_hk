@@ -86,14 +86,14 @@ $tutor_bookings = fetch_rows($conn->query($sql_tutor_bookings));
             <td>
                 <?php if ($tb['Status'] == 'Pending'): ?>
                     <div style='display:flex; gap:0.25rem;'>
-                        <form method='POST' action='?page=tutor_dashboardd'>
+                        <form method='POST' action='?page=tutor_dashboard'>
                             <input type='hidden' name='action' value='update_booking_status'>
                             <input type='hidden' name='booking_id' value='<?= $tb['BookingID'] ?>'>
                             <input type='hidden' name='new_status' value='Confirmed'>
                             <button type='submit' class='btn-success'>CONFIRM</button>
                         </form>
 
-                        <form method='POST' action='?page=tutor_dashboardd'>
+                        <form method='POST' action='?page=tutor_dashboard'>
                             <input type='hidden' name='action' value='update_booking_status'>
                             <input type='hidden' name='booking_id' value='<?= $tb['BookingID'] ?>'>
                             <input type='hidden' name='new_status' value='Cancelled'>

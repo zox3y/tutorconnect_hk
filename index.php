@@ -88,7 +88,7 @@ $page_map = [
   'profile'          => 'pages/profile.php',
   'bookings'         => 'pages/bookings.php',
   'messages'         => 'pages/messages.php',
-  'tutor_dashboardd' => 'pages/tutor_dashboard.php',
+  'tutor_dashboard'  => 'pages/tutor_dashboard.php',
   'admin'            => 'pages/admin.php'
 ];
 
