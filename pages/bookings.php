@@ -24,13 +24,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
       if ($valid_date && $valid_time && $valid_dur) {
         $safe_date = safe($lesson_date);
         $safe_time = safe($lesson_time);
+        $overlap = "TIME_TO_SEC(LessonTime) < TIME_TO_SEC('$safe_time') + ($duration * 3600)
+                    AND TIME_TO_SEC(LessonTime) + (Duration * 3600) > TIME_TO_SEC('$safe_time')";
 
         // tutor already busy at this time
         $sql_conflict_tutor = "SELECT COUNT(*) FROM BOOKING 
            WHERE TutorID = $tutor_id 
              AND LessonDate = '$safe_date' 
              AND Status != 'Cancelled'
-             AND LessonTime = '$safe_time'";
+             AND $overlap";
         $res_t = $conn->query($sql_conflict_tutor);
         $row_t = $res_t ? $res_t->fetch_row() : [0];
 
@@ -39,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
            WHERE StudentID = $student_id 
              AND LessonDate = '$safe_date' 
              AND Status != 'Cancelled'
-             AND LessonTime = '$safe_time'";
+             AND $overlap";
         $res_s = $conn->query($sql_conflict_stu);
         $row_s = $res_s ? $res_s->fetch_row() : [0];
 
