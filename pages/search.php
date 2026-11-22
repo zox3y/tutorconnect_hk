@@ -23,6 +23,8 @@ if (isset($_GET['rate']) && $_GET['rate'] !== '') {
   $max_rate = 9999.0;
 }
 
+$isverified = isset($_GET['verified']);
+
 $sql_search = "
   SELECT u.UserID, u.Title, u.Name, u.District, t.Bio, t.Qualifications, t.HourlyRate, t.AvgRating,
     GROUP_CONCAT(s.SubjectName SEPARATOR ', ') AS SubjectsTaught,
@@ -46,6 +48,10 @@ if (!empty($district)) {
 
 if ($subject_id > 0) {
   $sql_search .= " AND t.TutorID IN (SELECT TutorID FROM TUTOR_SUBJECT WHERE SubjectID = $subject_id)";
+}
+
+if ($isverified) {
+  $sql_search .= " AND EXISTS(SELECT 1 FROM TUTOR_DOCUMENT WHERE TutorID = u.UserID AND Status = 'Approved')";
 }
 
 $sql_search .= " GROUP BY t.TutorID ORDER BY t.AvgRating DESC, u.Name ASC";
@@ -93,6 +99,10 @@ if (!empty($alert_message)) {
   <input type='number' name='rate' value='<?= $max_rate ?>' min='0' max='9999'>
 </div>
 </div><br>
+<label class='checkbox-label' style='margin-bottom:0.75rem;'>
+  <input type='checkbox' name='verified' value='1' <?= $isverified ? 'checked' : '' ?>>
+  <span class='verified-badge'>✔ Verified</span> tutors only
+</label>
 <button type='submit' class='btn-primary' style='font-size:1rem;'>Apply Filter</button> 
 <a href='?page=search' class='btn-sec'>Reset</a>
 </form>
