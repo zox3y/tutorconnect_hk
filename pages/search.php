@@ -98,13 +98,19 @@ if (!empty($alert_message)) {
   <label>Max Hourly Rate ($):</label>
   <input type='number' name='rate' value='<?= $max_rate ?>' min='0' max='9999'>
 </div>
-</div><br>
-<label class='checkbox-label' style='margin-bottom:0.75rem;'>
-  <input type='checkbox' name='verified' value='1' <?= $isverified ? 'checked' : '' ?>>
-  <span class='verified-badge'>✔ Verified</span> tutors only
-</label>
-<button type='submit' class='btn-primary' style='font-size:1rem;'>Apply Filter</button> 
-<a href='?page=search' class='btn-sec'>Reset</a>
+</div>
+
+<div style='display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--border-color);'>
+  <label class='checkbox-label' style='padding:0.55rem 0.9rem; border:1px solid var(--border-color); border-radius:4px; background-color:var(--contact-bg); font-weight:600;'>
+    <input type='checkbox' name='verified' value='1' <?= $isverified ? 'checked' : '' ?>>
+    <span class='verified-badge'>✔ Verified</span> Tutors Only
+  </label>
+
+  <div style='display:flex; gap:0.5rem;'>
+    <button type='submit' class='btn-primary' style='font-size:1rem;'>Apply Filter</button>
+    <a href='?page=search' class='btn-sec'>Reset</a>
+  </div>
+</div>
 </form>
 
 <div style='display:flex; flex-direction:column; gap:1rem;'>
