@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS USER (
     Email VARCHAR(100) NOT NULL UNIQUE,
     PasswordHash VARCHAR(255) NOT NULL,
     Role ENUM('Student', 'Parent', 'Tutor', 'Admin') NOT NULL,
-    Phone VARCHAR(50),
+    Phone CHAR(8),
     Region VARCHAR(100),
     District VARCHAR(100)
 );
