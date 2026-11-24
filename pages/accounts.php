@@ -157,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['action'])) {
       }
       unset($_SESSION['pending']);
 
-      header("Location: " . $_SERVER['PHP_SELF'] . "?page=tutor_dashboardd");
+      header("Location: " . $_SERVER['PHP_SELF'] . "?page=tutor_dashboard");
       exit();
     }
   }
